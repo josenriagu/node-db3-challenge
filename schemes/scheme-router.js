@@ -81,7 +81,7 @@ router.put('/:id', async (req, res) => {
   try {
     const scheme = await Schemes.findById(id);
 
-    if (scheme) {
+    if (scheme.length !== 0) { // prevents empty array from passing through since there are no middlewares
       const updatedScheme = await Schemes.update(changes, id);
       res.json(updatedScheme);
     } else {
