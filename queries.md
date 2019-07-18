@@ -39,3 +39,47 @@ LEFT JOIN OrderDetails AS od ON o.OrderID = od.OrderID
 LEFT JOIN Products AS p ON od.ProductID = p.ProductID
 GROUP BY o.OrderID
 ORDER BY itemCount DESC
+
+### Instructor's Stretch
+### Find the number of shipments by each shipper
+select shipperName, count (s.shipperName) as Shipment
+from Orders as o
+left join Shippers as s on o.shipperid = s.shipperid
+group by s.shipperName
+order by Shipment desc
+
+### Find the top 5 best performing employees measured in number of orders
+select o.EmployeeID, FirstName, LastName, count (o.employeeId) as Sales
+from Orders as o
+left join Employees as e on o.employeeId = e.employeeId
+group by o.employeeId
+order by Sales desc
+limit 5
+
+### Find the category that brings in the most revenue
+select CategoryName, count (p.categoryID) as Count
+from OrderDetails as od
+left join Products as p on od.productID = p.productID
+left join Categories as c on p.categoryID = c.categoryID
+group by p.categoryID
+order by Count desc
+limit 1
+
+### Find the customer country with the most orders
+select Country, count (c.country) as TotalOrders
+from Orders as o
+left join Customers as c on o.customerID = c.customerID
+group by c.country
+order by TotalOrders desc
+limit 1
+
+### Find the shipper that moves the most cheese measured in total units
+select ShipperName, ProductName, count (s.shipperName) as Total
+from Orders as o
+left join Shippers as s on o.shipperID = s.shipperID
+left join OrderDetails as od on o.orderID = od.orderID
+left join Products as p on od.productID = p.productID
+where ProductName = 'Chais'
+group by s.shipperName
+order by Total desc
+limit 1
